@@ -36,8 +36,10 @@ useEffect(() => {
 },[toDos])
 
 useEffect(() => {
-  const newToDos = localStorage.getItem("Todo")
-  setToDos(JSON.parse([...toDos, newToDos]))
+  if(localStorage.getItem("Todo") !== null) {
+    const newToDos = localStorage.getItem("Todo")
+    setToDos(JSON.parse([...toDos, newToDos]))
+  }
 }, [])
 
   return (
