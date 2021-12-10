@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 
 function App() {
+const firstRender = useRef(true)
 const [inputValue, setInputValue] = useState('')
 const [toDos, setToDos] = useState([])
 
@@ -19,10 +20,25 @@ const addToDo = (e) => {
 
   setInputValue('')
 }
-
+console.log(firstRender)
 const removeToDo = (id) => {
   setToDos(toDos.filter(todo => todo.id !== id))
 }
+
+useEffect(() => {
+  if(firstRender.current) {
+    console.log('true')
+    firstRender.current = false
+  } else {
+    localStorage.setItem("Todo", JSON.stringify([...toDos]))
+    console.log('not first page load')
+  }
+},[toDos])
+
+useEffect(() => {
+  const newToDos = localStorage.getItem("Todo")
+  setToDos(JSON.parse([...toDos, newToDos]))
+}, [])
 
   return (
     <div className="App">
